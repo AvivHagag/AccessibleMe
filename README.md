@@ -1,3 +1,7 @@
+# AccessibleMe
+
+AccessibleMe is a collaborative platform where users can share and discover reviews about accessibility in public places.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
