@@ -1,0 +1,11 @@
+<svg width="500" height="350" viewBox="0 0 500 350" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="500" height="350" fill="#F3F4F6"/>
+  <circle cx="250" cy="140" r="60" fill="#D1D5DB"/>
+  <rect x="215" y="210" width="70" height="120" rx="10" fill="#D1D5DB"/>
+  <rect x="150" y="230" width="60" height="10" rx="5" fill="#D1D5DB"/>
+  <rect x="290" y="230" width="60" height="10" rx="5" fill="#D1D5DB"/>
+  <path d="M240 330 L260 330 L270 350 L230 350 Z" fill="#D1D5DB"/>
+  <circle cx="150" cy="200" r="30" fill="#9CA3AF"/>
+  <circle cx="350" cy="200" r="30" fill="#9CA3AF"/>
+  <text x="250" y="180" font-family="Arial" font-size="12" text-anchor="middle" fill="#4B5563">Accessibility Illustration</text>
+</svg> 
