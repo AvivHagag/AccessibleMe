@@ -1,5 +1,6 @@
-import MainPage from "./(main)/main-page";
 import { Review } from "@/lib/types";
+import ReviewsPage from "./reviews-page";
+
 const mockReviews: Review[] = [
   {
     id: "1",
@@ -84,6 +85,26 @@ const categories = [
   { id: "all", label: "כל הביקורות" },
 ];
 
-export default function Home() {
-  return <MainPage reviews={mockReviews} categories={categories} />;
+export default function Page({
+  searchParams,
+}: {
+  searchParams: { term?: string; category?: string };
+}) {
+  const category = searchParams.category || "all";
+  const filteredReviews = mockReviews.filter((review) => {
+    const matchesCategory =
+      category === "all"
+        ? true
+        : review.accessibilityFeatures[
+            category as keyof typeof review.accessibilityFeatures
+          ];
+
+    return matchesCategory;
+  });
+
+  return (
+    <main className="flex-1 min-h-[600px]">
+      <ReviewsPage filteredReviews={filteredReviews} category={category} />
+    </main>
+  );
 }
