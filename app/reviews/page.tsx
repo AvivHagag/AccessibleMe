@@ -75,22 +75,12 @@ const mockReviews: Review[] = [
   },
 ];
 
-const categories = [
-  { id: "accessibleLocation", label: "מיקום נגיש" },
-  { id: "adaptedServices", label: "שירותים מותאמים" },
-  { id: "audioSystems", label: "מערכות שמע" },
-  { id: "clearSignage", label: "שילוט ברור" },
-  { id: "disabledParking", label: "חניית נכים" },
-  { id: "wheelchairAccess", label: "כיסאות גלגלים" },
-  { id: "all", label: "כל הביקורות" },
-];
-
-export default function Page({
+export default async function Page({
   searchParams,
 }: {
-  searchParams: { term?: string; category?: string };
+  searchParams: Promise<{ term?: string; category?: string }>;
 }) {
-  const category = searchParams.category || "all";
+  const { term, category = "all" } = await searchParams;
   const filteredReviews = mockReviews.filter((review) => {
     const matchesCategory =
       category === "all"

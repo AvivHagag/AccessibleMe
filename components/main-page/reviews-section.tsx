@@ -53,7 +53,7 @@ export default function ReviewsSection({
         );
 
   return (
-    <section className="mx-2 md:p-2 max-w-6xl bg-white/20 backdrop-blur-lg border border-white/40 rounded-xl">
+    <section className="mx-2 md:p-2 max-w-6xl bg-white/20 dark:bg-black backdrop-blur-lg border border-white/40 dark:border-mint-darkest rounded-xl">
       <div className="mx-auto p-4">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-8">
           <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
@@ -95,7 +95,7 @@ export default function ReviewsSection({
             defaultValue={selectedCategory}
             onValueChange={setSelectedCategory}
           >
-            <TabsList className="w-full grid grid-cols-7 bg-white/40 border border-mint-dark text-mint-darkest backdrop-blur-md rounded-xl">
+            <TabsList className="w-full grid grid-cols-7 bg-white/40 dark:bg-black/70 border border-mint-dark text-mint-darkest backdrop-blur-md rounded-xl">
               {categories.map((category) => (
                 <TabsTrigger
                   key={category.id}
@@ -117,7 +117,7 @@ export default function ReviewsSection({
             filteredReviews.map((review) => (
               <Card
                 key={review.id}
-                className="flex flex-col h-full bg-white/50 backdrop-blur-md border-mint-medium"
+                className="flex flex-col h-full bg-white/50 dark:bg-black dark:text-mint-darkest dark:border-mint-darkest backdrop-blur-md border-mint-medium"
               >
                 <CardHeader>
                   <div className="flex justify-between items-start">
@@ -140,7 +140,7 @@ export default function ReviewsSection({
                     {review.accessibilityFeatures.wheelchairAccess && (
                       <Badge
                         variant="secondary"
-                        className="flex items-center gap-1 bg-mint-lightestrounded-full p-1"
+                        className="flex items-center gap-1 bg-mint-lightest p-1 dark:bg-mint-darkest/20"
                       >
                         <Accessibility className="h-5 w-5" />
                         <span className="sr-only">Wheelchair Access</span>
@@ -149,7 +149,7 @@ export default function ReviewsSection({
                     {review.accessibilityFeatures.disabledParking && (
                       <Badge
                         variant="secondary"
-                        className="flex items-center gap-1 bg-mint-lightestrounded-full p-1"
+                        className="flex items-center gap-1 bg-mint-lightest p-1 dark:bg-mint-darkest/20"
                       >
                         <Car className="h-5 w-5" />
                         <span className="sr-only">Disabled Parking</span>
@@ -158,7 +158,7 @@ export default function ReviewsSection({
                     {review.accessibilityFeatures.clearSignage && (
                       <Badge
                         variant="secondary"
-                        className="flex items-center gap-1 bg-mint-lightestrounded-full p-1"
+                        className="flex items-center gap-1 bg-mint-lightest p-1 dark:bg-mint-darkest/20"
                       >
                         <SignpostBig className="h-5 w-5" />
                         <span className="sr-only">Clear Signage</span>
@@ -167,7 +167,7 @@ export default function ReviewsSection({
                     {review.accessibilityFeatures.audioSystems && (
                       <Badge
                         variant="secondary"
-                        className="flex items-center gap-1 bg-mint-lightestrounded-full p-1"
+                        className="flex items-center gap-1 bg-mint-lightest p-1 dark:bg-mint-darkest/20"
                       >
                         <Volume2 className="h-5 w-5" />
                         <span className="sr-only">Audio Systems</span>
@@ -176,7 +176,7 @@ export default function ReviewsSection({
                     {review.accessibilityFeatures.adaptedServices && (
                       <Badge
                         variant="secondary"
-                        className="flex items-center gap-1 bg-mint-lightestrounded-full p-1"
+                        className="flex items-center gap-1 bg-mint-lightest p-1 dark:bg-mint-darkest/20"
                       >
                         <Info className="h-5 w-5" />
                         <span className="sr-only">Adapted Services</span>
@@ -185,7 +185,7 @@ export default function ReviewsSection({
                     {review.accessibilityFeatures.accessibleLocation && (
                       <Badge
                         variant="secondary"
-                        className="flex items-center gap-1 bg-mint-lightestrounded-full p-1"
+                        className="flex items-center gap-1 bg-mint-lightest p-1 dark:bg-mint-darkest/20"
                       >
                         <MapPin className="h-5 w-5" />
                         <span className="sr-only">Accessible Location</span>

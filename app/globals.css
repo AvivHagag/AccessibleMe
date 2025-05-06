@@ -55,6 +55,40 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    h1,
+    h2,
+    h3,
+    h4 {
+      color: rgb(125 217 195 / 0.7) !important;
+    }
+  }
+
+  /* High Contrast Mode - overrides both light and dark themes */
+  .high-contrast {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 0%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 0%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 80%;
+    --accent: 0 0% 20%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 40%;
+    --input: 0 0% 20%;
+    --ring: 0 0% 100%;
+    --chart-1: 0 0% 90%;
+    --chart-2: 0 0% 70%;
+    --chart-3: 0 0% 50%;
+    --chart-4: 0 0% 30%;
+    --chart-5: 0 0% 10%;
   }
 }
 
@@ -65,4 +99,60 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Additional high-contrast styles */
+.high-contrast {
+  /* Force black background and white text for better contrast */
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+html.high-contrast body,
+body.high-contrast,
+.high-contrast body[class*="bg-"] {
+  background: #000 !important;
+  background-image: none !important;
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+/* Override any Tailwind background classes */
+.high-contrast [class*="bg-"],
+html.high-contrast [class*="bg-"] {
+  background: #000 !important;
+  background-image: none !important;
+  background-color: #000 !important;
+}
+
+.high-contrast * {
+  border-color: #fff !important;
+}
+
+.high-contrast button,
+.high-contrast a,
+.high-contrast input,
+.high-contrast select,
+.high-contrast textarea {
+  background-color: #000 !important;
+  color: #fff !important;
+  /* border: 1px solid #fff !important; */
+}
+
+.high-contrast span,
+.high-contrast h1,
+.high-contrast h2,
+.high-contrast h3,
+.high-contrast h4 {
+  color: #fff !important;
+}
+
+.high-contrast button:hover,
+.high-contrast a:hover {
+  background-color: #333 !important;
+}
+
+.high-contrast img,
+.high-contrast svg {
+  filter: grayscale(100%) contrast(200%) !important;
 }

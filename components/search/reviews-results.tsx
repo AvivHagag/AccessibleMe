@@ -45,7 +45,7 @@ export default function ReviewsResults({
     : reviews;
 
   return (
-    <section className="mx-2 md:p-2 max-w-6xl bg-white/20 backdrop-blur-lg border border-white/40 rounded-xl">
+    <section className="mx-2 md:p-2 max-w-6xl bg-white/20 dark:bg-black backdrop-blur-lg border border-white/40 dark:border-mint-darkest rounded-xl">
       <div className="mx-auto p-4">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-8">
           {term ? (
@@ -93,7 +93,7 @@ export default function ReviewsResults({
               searchFilteredReviews.map((review) => (
                 <Card
                   key={review.id}
-                  className="flex flex-col h-full bg-white/50 backdrop-blur-md border-mint-medium"
+                  className="flex flex-col h-full bg-white/50 dark:bg-black dark:text-mint-darkest dark:border-mint-darkest backdrop-blur-md border-mint-medium"
                 >
                   <CardHeader>
                     <div className="flex justify-between items-start">
@@ -116,7 +116,7 @@ export default function ReviewsResults({
                       {review.accessibilityFeatures.wheelchairAccess && (
                         <Badge
                           variant="secondary"
-                          className="flex items-center gap-1"
+                          className="flex items-center gap-1 dark:bg-mint-darkest/20"
                         >
                           <Accessibility className="h-5 w-5" />
                           <span className="sr-only">Wheelchair Access</span>
@@ -125,7 +125,7 @@ export default function ReviewsResults({
                       {review.accessibilityFeatures.disabledParking && (
                         <Badge
                           variant="secondary"
-                          className="flex items-center gap-1"
+                          className="flex items-center gap-1 dark:bg-mint-darkest/20"
                         >
                           <Car className="h-5 w-5" />
                           <span className="sr-only">Disabled Parking</span>
@@ -134,7 +134,7 @@ export default function ReviewsResults({
                       {review.accessibilityFeatures.clearSignage && (
                         <Badge
                           variant="secondary"
-                          className="flex items-center gap-1"
+                          className="flex items-center gap-1 dark:bg-mint-darkest/20"
                         >
                           <SignpostBig className="h-5 w-5" />
                           <span className="sr-only">Clear Signage</span>
@@ -143,7 +143,7 @@ export default function ReviewsResults({
                       {review.accessibilityFeatures.audioSystems && (
                         <Badge
                           variant="secondary"
-                          className="flex items-center gap-1"
+                          className="flex items-center gap-1 dark:bg-mint-darkest/20"
                         >
                           <Volume2 className="h-5 w-5" />
                           <span className="sr-only">Audio Systems</span>
@@ -152,7 +152,7 @@ export default function ReviewsResults({
                       {review.accessibilityFeatures.adaptedServices && (
                         <Badge
                           variant="secondary"
-                          className="flex items-center gap-1"
+                          className="flex items-center gap-1 dark:bg-mint-darkest/20"
                         >
                           <Info className="h-5 w-5" />
                           <span className="sr-only">Adapted Services</span>
@@ -161,7 +161,7 @@ export default function ReviewsResults({
                       {review.accessibilityFeatures.accessibleLocation && (
                         <Badge
                           variant="secondary"
-                          className="flex items-center gap-1"
+                          className="flex items-center gap-1 dark:bg-mint-darkest/20"
                         >
                           <MapPin className="h-5 w-5" />
                           <span className="sr-only">Accessible Location</span>

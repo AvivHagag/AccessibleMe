@@ -4,7 +4,6 @@ import "./globals.css";
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/footer/Footer";
 import { ThemeProvider } from "@/components/theme-provider";
-import AccessibilityControls from "@/components/main-page/accessibility-controls";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,11 +46,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-[linear-gradient(to_bottom,_#E5F8EF_0%,_#A5E4C2_33%,_#BDEAF1_67%,_#F3F3F3_100%)]`}
+        className={`${geistSans.variable} ${geistMono.variable} dark:bg-[linear-gradient(to_bottom,_#042f2e_0%,_#000000_33%,_#000000_100%)] bg-[linear-gradient(to_bottom,_#E5F8EF_0%,_#A5E4C2_33%,_#BDEAF1_67%,_#F3F3F3_100%)]`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Navbar />
-          <AccessibilityControls />
           <main className="flex-1 min-h-[600px]">{children}</main>
           <Footer />
         </ThemeProvider>

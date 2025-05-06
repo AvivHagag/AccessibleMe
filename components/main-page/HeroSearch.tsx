@@ -31,7 +31,7 @@ export default function HeroSearch({
               <Input
                 type="search"
                 placeholder="חפש מקום או קטגוריה (לדוגמה: מסעדה, חניית נכים...)"
-                className="w-full pl-4 pr-10 py-3 h-14 text-right rounded-full bg-white/20 backdrop-blur-md border border-white/30 shadow-lg focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
+                className="w-full pl-4 pr-10 py-3 h-14 text-right rounded-full bg-white/20 dark:bg-black backdrop-blur-md border border-white/30 dark:border-mint-darkest dark:text-mint-darkest shadow-lg focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
                 value={searchValue}
                 onChange={(e) => onSearchChange(e.target.value)}
                 dir="rtl"

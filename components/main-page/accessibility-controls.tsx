@@ -10,34 +10,44 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  PersonStanding,
-  Settings,
-  Moon,
-  Sun,
-  ZoomIn,
-  ZoomOut,
-  Type,
-} from "lucide-react";
+import { PersonStanding, Moon, Sun, ZoomIn, ZoomOut, Type } from "lucide-react";
 
-export default function AccessibilityControls() {
+export default function AccessibilityControls({
+  theme,
+  setTheme,
+  highContrast,
+  setHighContrast,
+}: {
+  theme: string | undefined;
+  setTheme: (theme: "light" | "dark") => void;
+  highContrast: boolean;
+  setHighContrast: (highContrast: boolean) => void;
+}) {
   const [fontSize, setFontSize] = useState(16);
-  const [highContrast, setHighContrast] = useState(false);
-  const [theme, setTheme] = useState<"light" | "dark">("light");
 
   useEffect(() => {
     document.documentElement.style.fontSize = `${fontSize}px`;
 
     if (highContrast) {
       document.documentElement.classList.add("high-contrast");
+      document.body.classList.add("high-contrast");
+      document.body.style.background = "#000";
+      document.body.style.backgroundImage = "none";
+      document.body.style.backgroundColor = "#000";
+      if (theme === "dark") {
+        document.documentElement.classList.remove("dark");
+      }
     } else {
       document.documentElement.classList.remove("high-contrast");
-    }
-
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
+      document.body.classList.remove("high-contrast");
+      document.body.style.background = "";
+      document.body.style.backgroundImage = "";
+      document.body.style.backgroundColor = "";
+      if (theme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
     }
   }, [fontSize, highContrast, theme]);
 
@@ -58,12 +68,14 @@ export default function AccessibilityControls() {
   };
 
   const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
+    if (!highContrast) {
+      setTheme(theme === "light" ? "dark" : "light");
+    }
   };
 
   return (
-    <div className="fixed bottom-4 left-4 z-50">
-      <DropdownMenu>
+    <div className="fixed bottom-4 right-4 z-50">
+      <DropdownMenu dir="rtl">
         <DropdownMenuTrigger asChild>
           <Button
             variant="outline"
@@ -79,22 +91,23 @@ export default function AccessibilityControls() {
           className="w-56 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
         >
           <DropdownMenuLabel className="font-semibold">
-            Accessibility Settings
+            הגדרות נגישות
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={toggleTheme}
             className="flex items-center justify-between cursor-pointer hover:bg-accent/50"
+            disabled={highContrast}
           >
             {theme === "light" ? (
               <>
-                <span>Dark Mode</span>
-                <Moon className="h-4 w-4 ml-2" />
+                <span>מצב כהה</span>
+                <Moon className="h-4 w-4 mr-2" />
               </>
             ) : (
               <>
-                <span>Light Mode</span>
-                <Sun className="h-4 w-4 ml-2" />
+                <span>מצב בהיר</span>
+                <Sun className="h-4 w-4 mr-2" />
               </>
             )}
           </DropdownMenuItem>
@@ -102,23 +115,23 @@ export default function AccessibilityControls() {
             onClick={toggleHighContrast}
             className="flex items-center justify-between cursor-pointer hover:bg-accent/50"
           >
-            <span>High Contrast {highContrast ? "(On)" : "(Off)"}</span>
-            <Type className="h-4 w-4 ml-2" />
+            <span>ניגודיות גבוהה {highContrast ? "(פעיל)" : "(כבוי)"}</span>
+            <Type className="h-4 w-4 mr-2" />
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={increaseFontSize}
             className="flex items-center justify-between cursor-pointer hover:bg-accent/50"
           >
-            <span>Increase Font Size</span>
-            <ZoomIn className="h-4 w-4 ml-2" />
+            <span>הגדל גודל גופן</span>
+            <ZoomIn className="h-4 w-4 mr-2" />
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={decreaseFontSize}
             className="flex items-center justify-between cursor-pointer hover:bg-accent/50"
           >
-            <span>Decrease Font Size</span>
-            <ZoomOut className="h-4 w-4 ml-2" />
+            <span>הקטן גודל גופן</span>
+            <ZoomOut className="h-4 w-4 mr-2" />
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

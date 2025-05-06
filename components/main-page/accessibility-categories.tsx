@@ -24,16 +24,28 @@ export default function AccessibilityCategories({
   };
 
   const categoryIcons: Record<string, React.ReactNode> = {
-    wheelchairAccess: <Accessibility className="h-8 w-8 mb-2 text-primary" />,
-    disabledParking: <Car className="h-8 w-8 mb-2 text-primary" />,
-    clearSignage: <SignpostBig className="h-8 w-8 mb-2 text-primary" />,
-    audioSystems: <Volume2 className="h-8 w-8 mb-2 text-primary" />,
-    adaptedServices: <Info className="h-8 w-8 mb-2 text-primary" />,
-    accessibleLocation: <MapPin className="h-8 w-8 mb-2 text-primary" />,
+    wheelchairAccess: (
+      <Accessibility className="h-8 w-8 mb-2 text-primary dark:text-mint-darkest" />
+    ),
+    disabledParking: (
+      <Car className="h-8 w-8 mb-2 text-primary dark:text-mint-darkest" />
+    ),
+    clearSignage: (
+      <SignpostBig className="h-8 w-8 mb-2 text-primary dark:text-mint-darkest" />
+    ),
+    audioSystems: (
+      <Volume2 className="h-8 w-8 mb-2 text-primary dark:text-mint-darkest" />
+    ),
+    adaptedServices: (
+      <Info className="h-8 w-8 mb-2 text-primary dark:text-mint-darkest" />
+    ),
+    accessibleLocation: (
+      <MapPin className="h-8 w-8 mb-2 text-primary dark:text-mint-darkest" />
+    ),
   };
 
   return (
-    <section className="mx-2 md:p-2 max-w-6xl bg-white/20 backdrop-blur-lg border border-white/40 rounded-xl">
+    <section className="mx-2 md:p-2 max-w-6xl bg-white/20 dark:bg-black backdrop-blur-lg border border-white/40 dark:border-mint-darkest rounded-xl">
       <div className="mx-auto p-4">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
@@ -51,7 +63,7 @@ export default function AccessibilityCategories({
             .map((category: Category) => (
               <Card
                 key={category.id}
-                className="flex flex-col items-center text-center bg-white/50 backdrop-blur-md p-4 hover:bg-accent/50 transition-colors cursor-pointer"
+                className="flex flex-col items-center text-center bg-white/50 dark:bg-black dark:text-mint-darkest dark:border-mint-darkest backdrop-blur-md p-4 hover:bg-accent/50 transition-colors cursor-pointer"
                 onClick={() => handleCardClick(category.id)}
               >
                 {categoryIcons[category.id]}

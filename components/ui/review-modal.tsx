@@ -39,20 +39,20 @@ export function ReviewModal({
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent
-        className="sm:max-w-2xl bg-white rounded-lg p-4 shadow-lg"
+        className="sm:max-w-2xl bg-white dark:bg-black rounded-lg p-4 shadow-lg"
         dir="rtl"
       >
         <DialogHeader className="flex flex-row justify-between items-start mb-1 space-y-0">
-          <DialogTitle className="text-xl font-bold text-mint-darkest">
+          <DialogTitle className="text-xl font-bold text-black dark:text-white">
             {review.placeName}
           </DialogTitle>
           <DialogClose asChild>
             <Button
               variant="ghost"
               size="icon"
-              className="rounded-full h-8 w-8 p-0 hover:bg-mint-lightest"
+              className="rounded-full h-8 w-8 p-0 hover:bg-mint-lightest dark:hover:bg-mint-teal/10"
             >
-              <X className="h-5 w-5 text-mint-darkest" />
+              <X className="h-5 w-5 text-mint-darkest dark:text-mint-darkest" />
             </Button>
           </DialogClose>
         </DialogHeader>
@@ -62,7 +62,10 @@ export function ReviewModal({
             <span className="text-sm text-muted-foreground">
               נכתב על ידי {review.author}
             </span>
-            <Badge variant="outline" className="w-fit mt-1 border-mint-medium">
+            <Badge
+              variant="outline"
+              className="w-fit mt-1 border-mint-medium dark:border-mint-darkest"
+            >
               {review.placeType}
             </Badge>
           </div>
@@ -78,37 +81,37 @@ export function ReviewModal({
           <h3 className="font-medium mb-2">מאפייני נגישות</h3>
           <div className="flex flex-wrap gap-2 mb-6">
             {review.accessibilityFeatures.wheelchairAccess && (
-              <Badge className="flex items-center gap-1 px-3 py-1 bg-mint-medium text-white hover:bg-mint-dark border-0">
+              <Badge className="flex items-center gap-1 px-3 py-1 bg-mint-medium dark:bg-mint-darkest/20 text-white hover:bg-mint-dark border-0">
                 <Accessibility className="h-4 w-4" />
                 <span>גישה לכיסאות גלגלים</span>
               </Badge>
             )}
             {review.accessibilityFeatures.clearSignage && (
-              <Badge className="flex items-center gap-1 px-3 py-1 bg-mint-medium text-white hover:bg-mint-dark border-0">
+              <Badge className="flex items-center gap-1 px-3 py-1 bg-mint-medium dark:bg-mint-darkest/20 text-white hover:bg-mint-dark border-0">
                 <SignpostBig className="h-4 w-4" />
                 <span>שילוט ברור</span>
               </Badge>
             )}
             {review.accessibilityFeatures.audioSystems && (
-              <Badge className="flex items-center gap-1 px-3 py-1 bg-mint-medium text-white hover:bg-mint-dark border-0">
+              <Badge className="flex items-center gap-1 px-3 py-1 bg-mint-medium dark:bg-mint-darkest/20 text-white hover:bg-mint-dark border-0">
                 <Volume2 className="h-4 w-4" />
                 <span>מערכות שמע</span>
               </Badge>
             )}
             {review.accessibilityFeatures.adaptedServices && (
-              <Badge className="flex items-center gap-1 px-3 py-1 bg-mint-medium text-white hover:bg-mint-dark border-0">
+              <Badge className="flex items-center gap-1 px-3 py-1 bg-mint-medium dark:bg-mint-darkest/20 text-white hover:bg-mint-dark border-0">
                 <Info className="h-4 w-4" />
                 <span>שירותים מותאמים</span>
               </Badge>
             )}
             {review.accessibilityFeatures.disabledParking && (
-              <Badge className="flex items-center gap-1 px-3 py-1 bg-mint-medium text-white hover:bg-mint-dark border-0">
+              <Badge className="flex items-center gap-1 px-3 py-1 bg-mint-medium dark:bg-mint-darkest/20 text-white hover:bg-mint-dark border-0">
                 <Car className="h-4 w-4" />
                 <span>חניית נכים</span>
               </Badge>
             )}
             {review.accessibilityFeatures.accessibleLocation && (
-              <Badge className="flex items-center gap-1 px-3 py-1 bg-mint-medium text-white hover:bg-mint-dark border-0">
+              <Badge className="flex items-center gap-1 px-3 py-1 bg-mint-medium dark:bg-mint-darkest/20 text-white hover:bg-mint-dark border-0">
                 <MapPin className="h-4 w-4" />
                 <span>מיקום נגיש</span>
               </Badge>
@@ -117,25 +120,6 @@ export function ReviewModal({
 
           <h3 className="font-medium mb-2">ביקורת</h3>
           <p className="text-muted-foreground mb-6">{review.description}</p>
-
-          {/* <div className="border-t border-slate-200 pt-4 mt-4 flex justify-between items-center">
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-2"
-            >
-              <ThumbsUp className="h-4 w-4" />
-              מועיל (8)
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-2"
-            >
-              <Share2 className="h-4 w-4" />
-              שתף
-            </Button>
-          </div> */}
         </div>
       </DialogContent>
     </Dialog>
