@@ -1,0 +1,167 @@
+"use client";
+
+import HeroSearch from "@/components/add-review/HeroSearch";
+import { Search } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
+import { AddReviewModal } from "@/components/ui/add-review-modal";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { Badge } from "@/components/ui/badge";
+import PlacesSection from "@/components/add-review/places-section";
+import { createReview } from "@/active/reviews";
+
+export type PlaceDetails = {
+  id: string;
+  name: string;
+  address: string;
+  types: string[];
+  image: string | null;
+  description?: string | null;
+  accessibilityFeatures: {
+    wheelchairAccess: boolean;
+    disabledParking: boolean;
+    clearSignage: boolean;
+    audioSystems: boolean;
+    adaptedServices: boolean;
+    accessibleLocation: boolean;
+  };
+};
+
+export default function AddReviewPage() {
+  const router = useRouter();
+  const [term, setTerm] = useState("");
+  const [selectedPlace, setSelectedPlace] = useState<PlaceDetails | null>(null);
+  const [details, setDetails] = useState<PlaceDetails | null>(null);
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchResults, setSearchResults] = useState<PlaceDetails[] | null>(
+    null
+  );
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
+
+  const onSearch = async () => {
+    if (!term.trim()) return;
+    setIsSearching(true);
+    setDetails(null);
+    setSearchResults([]);
+    const { predictions } = await fetch(
+      `/api/places/autocomplete?input=${encodeURIComponent(term)}`
+    ).then((r) => r.json());
+    const results = await Promise.all(
+      predictions.map(async (p: { place_id: string; description: string }) => {
+        const data = await fetch(`/api/places/${p.place_id}`).then((r) =>
+          r.json()
+        );
+        return { id: p.place_id, ...data };
+      })
+    );
+    setSearchResults(results);
+    setIsSearching(false);
+    setShowDropdown(false);
+  };
+
+  const onSelectPlace = async (placeId: string, text: string) => {
+    setTerm(text);
+    setShowDropdown(false);
+    setIsSearching(true);
+    setSearchResults([]);
+    setDetails(null);
+    const data = await fetch(`/api/places/${placeId}`).then((r) => r.json());
+    const placeDetails = { id: placeId, ...data };
+    setSearchResults([placeDetails]);
+    setSelectedPlace(placeDetails);
+    setIsSearching(false);
+    setShowDropdown(false);
+  };
+
+  const handleOpenReviewModal = (place: PlaceDetails) => {
+    setSelectedPlace(place);
+    setReviewModalOpen(true);
+  };
+
+  const handleSubmitReview = async (review: {
+    rating: number;
+    author: string;
+    accessibilityFeatures: {
+      wheelchairAccess: boolean;
+      disabledParking: boolean;
+      clearSignage: boolean;
+      audioSystems: boolean;
+      adaptedServices: boolean;
+      accessibleLocation: boolean;
+    };
+    description: string;
+  }) => {
+    if (!selectedPlace) return;
+    try {
+      const newReview = {
+        id: selectedPlace.id,
+        placeName: selectedPlace.name,
+        placeType: selectedPlace.types[0],
+        overallRating: review.rating,
+        author: review.author || "אנונימי",
+        date: new Date(),
+        accessibilityFeatures: review.accessibilityFeatures,
+        description: review.description,
+      };
+      console.log(newReview);
+      // await createReview(newReview);
+      // Here you would normally submit the review to your backend
+      // For example:
+      // await fetch('/api/reviews', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({
+      //     placeId: selectedPlace.id,
+      //     placeName: selectedPlace.name,
+      //     ...review
+      //   })
+      // });
+
+      //   toast({
+      //     title: "ביקורת נשלחה בהצלחה!",
+      //     description: `תודה על הביקורת שלך ל${selectedPlace.name}.`,
+      //   });
+
+      // Redirect to reviews page or home page
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
+    } catch (error) {
+      //   toast({
+      //     title: "שגיאה בשליחת הביקורת",
+      //     description: "אירעה שגיאה בעת שליחת הביקורת, אנא נסה שוב.",
+      //     variant: "destructive",
+      //   });
+    }
+  };
+
+  return (
+    <main className="flex flex-col items-center gap-12 mb-24">
+      <HeroSearch
+        searchValue={term}
+        onSearchChange={setTerm}
+        onSelectPlace={onSelectPlace}
+        onSearch={onSearch}
+        showDropdown={showDropdown}
+        setShowDropdown={setShowDropdown}
+      />
+      <PlacesSection
+        searchResults={searchResults}
+        isSearching={isSearching}
+        term={term}
+        handleOpenReviewModal={handleOpenReviewModal}
+      />
+
+      <AddReviewModal
+        place={selectedPlace}
+        isOpen={reviewModalOpen}
+        onOpenChange={setReviewModalOpen}
+        onSubmitReview={handleSubmitReview}
+      />
+
+      <div className="mb-32"></div>
+    </main>
+  );
+}

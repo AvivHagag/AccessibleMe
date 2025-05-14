@@ -74,21 +74,21 @@ export default function AccessibilityControls({
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-50">
+    <div className="fixed bottom-4 right-4 z-[100]">
       <DropdownMenu dir="rtl">
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger asChild className="z-[100]">
           <Button
             variant="outline"
             size="icon"
             aria-label="Accessibility settings"
-            className="rounded-full shadow-lg hover:bg-accent/90 transition-colors"
+            className="rounded-full shadow-lg hover:bg-accent/90 transition-colors "
           >
             <PersonStanding className="h-5 w-5" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
           align="end"
-          className="w-56 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+          className="w-56 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-[100]"
         >
           <DropdownMenuLabel className="font-semibold">
             הגדרות נגישות
