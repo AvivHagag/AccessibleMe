@@ -18,12 +18,26 @@ export default function PlacesSection({
 }: PlacesSectionProps) {
   return (
     <section className="w-full max-w-4xl space-y-2 py-4 bg-white/20 dark:bg-black backdrop-blur-lg border border-white/40 dark:border-mint-darkest rounded-xl">
-      <h1 className="text-2xl font-bold text-center">תוצאות החיפוש</h1>
-      <p className="text-muted-foreground text-center">
-        בחר מקום מהרשימה על מנת לכתוב ביקורת
-      </p>
+      <h1 className="text-2xl font-bold text-center">
+        {" "}
+        {searchResults && term.trim() ? "תוצאות החיפוש" : "התחל חיפוש"}
+      </h1>
+      <div className="text-muted-foreground text-center w-4/5 mx-auto">
+        {searchResults && term.trim() ? (
+          "בחר מקום מהרשימה על מנת לכתוב ביקורת"
+        ) : (
+          <div className="flex flex-col items-center gap-2">
+            <Search className="w-8 h-8 text-muted-foreground" />
+            <span>
+              הקלד שם של מקום, עסק או כתובת בשדה החיפוש למעלה כדי למצוא מקומות
+              ולכתוב עליהם ביקורת
+            </span>
+          </div>
+        )}
+      </div>
       <div className="w-full space-y-4 px-4 md:px-10">
         {isSearching && <p className="text-center">מחפש…</p>}
+
         {!isSearching &&
           searchResults &&
           searchResults.length === 0 &&
@@ -48,6 +62,7 @@ export default function PlacesSection({
 
         {!isSearching &&
           searchResults &&
+          searchResults.length > 0 &&
           searchResults.map((place) => (
             <div
               key={place.id}

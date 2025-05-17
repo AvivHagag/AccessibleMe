@@ -2,9 +2,12 @@ export interface Review {
   id: string;
   placeName: string;
   placeType: string;
+  comment: string;
+  address: string;
   overallRating: number;
   description: string;
   author: string;
+  image: string | null;
   date: Date;
   accessibilityFeatures: {
     wheelchairAccess: boolean;
@@ -36,6 +39,27 @@ export type PlaceDetails = {
 export interface Category {
   id: string;
   label: string;
+}
+
+export interface Place {
+  id: string;
+  name: string;
+  address: string;
+  image: string | null;
+  placeTypes: string[];
+  overallRating: number;
+  description: string | null;
+  reviews: placeReview[];
+}
+
+export interface placeReview {
+  id: string;
+  placeId: string;
+  rating: number;
+  comment: string | null;
+  accessibilityFeatures: any;
+  author: string | null;
+  createdAt: Date;
 }
 
 export const TYPE_TRANSLATIONS: Record<string, string> = {
@@ -139,3 +163,22 @@ export const TYPE_TRANSLATIONS: Record<string, string> = {
   point_of_interest: "אטרקציה",
   food: "אוכל",
 };
+
+export const categories = [
+  { id: "accessibleLocation", label: "מיקום נגיש" },
+  { id: "adaptedServices", label: "שירותים מותאמים" },
+  { id: "audioSystems", label: "מערכות שמע" },
+  { id: "clearSignage", label: "שילוט ברור" },
+  { id: "disabledParking", label: "חניית נכים" },
+  { id: "wheelchairAccess", label: "כיסאות גלגלים" },
+  { id: "all", label: "כל הביקורות" },
+];
+
+export const accessibilityFeaturesTypes = [
+  { id: "accessibleLocation", label: "מיקום נגיש" },
+  { id: "adaptedServices", label: "שירותים מותאמים" },
+  { id: "audioSystems", label: "מערכות שמע" },
+  { id: "clearSignage", label: "שילוט ברור" },
+  { id: "disabledParking", label: "חניית נכים" },
+  { id: "wheelchairAccess", label: "כיסאות גלגלים" },
+];

@@ -1,29 +1,35 @@
 "use client";
 import HeroSearch from "@/components/main-page/HeroSearch";
 import AccessibilityCategories from "@/components/main-page/accessibility-categories";
-import ReviewsSection from "@/components/main-page/reviews-section";
-import ReviewsResults from "@/components/search/reviews-results";
-import { Category, Review } from "@/lib/types";
+import PlacesSection from "@/components/main-page/places-section";
+import PlacesResults from "@/components/search/places-results";
+import { Category, placeReview, Place } from "@/lib/types";
 import { useState } from "react";
 import { ReviewModal } from "@/components/ui/review-modal";
 
 export default function MainPage({
-  reviews,
+  Places,
   categories,
 }: {
-  reviews: Review[];
+  Places: Place[];
   categories: Category[];
 }) {
   const [term, setTerm] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectedReview, setSelectedReview] = useState<Review | null>(null);
-  const [isReviewModalOpen, setIsReviewModalOpen] = useState<boolean>(false);
+  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+  const [isPlaceModalOpen, setisPlaceModalOpen] = useState<boolean>(false);
 
-  const handleReviewSelect = (review: Review) => {
-    setSelectedReview(review);
-    setIsReviewModalOpen(true);
+  const handlePlaceSelect = (placeId: string) => {
+    const place = Places.find((place) => place.id === placeId);
+
+    if (place) {
+      console.log(place);
+      setSelectedPlace(place);
+      setisPlaceModalOpen(true);
+    }
   };
 
+  const Reviews = Places.map((place) => place.reviews).flat();
   return (
     <main className="flex flex-col items-center gap-12 mb-24">
       <HeroSearch
@@ -33,25 +39,27 @@ export default function MainPage({
       {term === "" ? (
         <>
           <AccessibilityCategories categories={categories} />
-          <ReviewsSection
-            reviews={reviews}
+          <PlacesSection
+            reviews={Reviews}
             categories={categories}
-            onReviewSelect={handleReviewSelect}
+            onPlaceSelect={handlePlaceSelect}
+            places={Places}
           />
         </>
       ) : (
-        <ReviewsResults
+        <PlacesResults
           loading={loading}
           term={term}
-          reviews={reviews}
-          onReviewSelect={handleReviewSelect}
+          reviews={Reviews}
+          places={Places}
+          onPlaceSelect={handlePlaceSelect}
         />
       )}
 
       <ReviewModal
-        review={selectedReview}
-        isOpen={isReviewModalOpen}
-        onOpenChange={setIsReviewModalOpen}
+        place={selectedPlace}
+        isOpen={isPlaceModalOpen}
+        onOpenChange={setisPlaceModalOpen}
       />
     </main>
   );

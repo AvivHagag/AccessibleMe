@@ -97,27 +97,18 @@ export default function AddReviewPage() {
     try {
       const newReview = {
         id: selectedPlace.id,
+        comment: review.description,
         placeName: selectedPlace.name,
         placeType: selectedPlace.types[0],
+        address: selectedPlace.address,
         overallRating: review.rating,
         author: review.author || "אנונימי",
         date: new Date(),
         accessibilityFeatures: review.accessibilityFeatures,
-        description: review.description,
+        description: selectedPlace.description || "",
+        image: selectedPlace.image || "",
       };
-      console.log(newReview);
-      // await createReview(newReview);
-      // Here you would normally submit the review to your backend
-      // For example:
-      // await fetch('/api/reviews', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({
-      //     placeId: selectedPlace.id,
-      //     placeName: selectedPlace.name,
-      //     ...review
-      //   })
-      // });
+      await createReview(newReview);
 
       //   toast({
       //     title: "ביקורת נשלחה בהצלחה!",

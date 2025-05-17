@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import {
   Dialog,
@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { StarRating } from "@/components/ui/star-rating";
 import { InteractiveStarRating } from "@/components/ui/interactive-star-rating";
 import { PlaceDetails } from "@/app/add-review/page";
 import {
@@ -25,7 +24,6 @@ import {
   X,
   CheckIcon,
 } from "lucide-react";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "./textarea";
 import { cn } from "@/lib/utils";
 import { Input } from "./input";
@@ -66,6 +64,22 @@ export function AddReviewModal({
     adaptedServices: false,
     accessibleLocation: false,
   });
+
+  useEffect(() => {
+    if (isOpen) {
+      setRating(0);
+      setDescription("");
+      setAuthor("");
+      setAccessibilityFeatures({
+        wheelchairAccess: false,
+        disabledParking: false,
+        clearSignage: false,
+        audioSystems: false,
+        adaptedServices: false,
+        accessibleLocation: false,
+      });
+    }
+  }, [isOpen]);
 
   const handleFeatureToggle = (feature: keyof typeof accessibilityFeatures) => {
     setAccessibilityFeatures((prev) => ({
@@ -256,6 +270,7 @@ export function AddReviewModal({
               placeholder="כתוב את השם שלך כאן..."
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
+              className="bg-mint-light dark:bg-mint-darkest/30"
             />
           </div>
           <div className=" border-gray-200 dark:border-gray-800">
@@ -264,7 +279,7 @@ export function AddReviewModal({
               placeholder="כתוב את הביקורת שלך כאן..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="h-32 resize-none"
+              className="h-32 resize-none bg-mint-light dark:bg-mint-darkest/30"
             />
           </div>
 

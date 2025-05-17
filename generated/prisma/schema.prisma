@@ -7,6 +7,29 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Place {
+  id            String    @id
+  name          String
+  placeTypes    String[]
+  address       String
+  image         String?
+  overallRating Float
+  description   String?
+  reviews       Review[]
+  deletedAt     DateTime?
+}
+
+model Review {
+  id                    String   @id @default(uuid())
+  placeId               String
+  place                 Place    @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  rating                Int
+  comment               String?
+  accessibilityFeatures Json
+  author                String?
+  createdAt             DateTime @default(now())
 }
