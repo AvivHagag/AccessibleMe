@@ -151,7 +151,7 @@ export function AddReviewModal({
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent
-        className="sm:max-w-2xl max-h-[95vh] bg-white dark:bg-black rounded-lg shadow-lg p-0 overflow-scroll z-40"
+        className="sm:max-w-2xl max-h-[95vh] bg-white dark:bg-black rounded-lg shadow-lg p-0 z-40"
         dir="rtl"
       >
         <DialogHeader className="flex justify-between items-start p-0">
@@ -161,7 +161,7 @@ export function AddReviewModal({
                 src={place.image}
                 alt={place.name}
                 fill
-                className="object-cover"
+                className="object-cover rounded-t-lg"
               />
             </div>
           )}
@@ -179,7 +179,7 @@ export function AddReviewModal({
           </DialogTitle>
         </DialogHeader>
 
-        <div className="px-2 space-y-4">
+        <div className="px-2 space-y-4 overflow-y-auto max-h-[60vh]">
           <div className="flex justify-between items-center">
             <div className="flex flex-col text-right">
               <span className="text-sm text-muted-foreground">

@@ -68,7 +68,7 @@ export function ReviewModal({ place, isOpen, onOpenChange }: ReviewModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent
-        className="sm:max-w-2xl max-h-[95vh] bg-white dark:bg-black rounded-lg shadow-lg p-0 overflow-y-scroll z-40"
+        className="sm:max-w-2xl max-h-[95vh] bg-white dark:bg-black rounded-lg shadow-lg p-0 z-40"
         dir="rtl"
       >
         <DialogHeader className="flex justify-between items-start p-0">
@@ -96,7 +96,7 @@ export function ReviewModal({ place, isOpen, onOpenChange }: ReviewModalProps) {
           </DialogTitle>
         </DialogHeader>
 
-        <div className="px-4">
+        <div className="px-4 overflow-y-auto">
           <div className="flex justify-between items-center mb-4">
             <div className="flex flex-col">
               <span className="text-sm text-muted-foreground">

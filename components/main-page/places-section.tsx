@@ -78,7 +78,6 @@ export default function PlacesSection({
     const placeData = placeMap.get(review.placeId);
     placeData.reviews.push(review);
 
-    // Update accessibility features if any review has them
     Object.keys(review.accessibilityFeatures).forEach((feature) => {
       if (review.accessibilityFeatures[feature]) {
         placeData.accessibilityFeatures[feature] = true;
@@ -86,7 +85,6 @@ export default function PlacesSection({
     });
   });
 
-  // Calculate average rating for each place
   placeMap.forEach((placeData) => {
     const totalRating = placeData.reviews.reduce(
       (sum: number, review: placeReview) => sum + review.rating,

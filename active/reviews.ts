@@ -81,3 +81,29 @@ export async function getData() {
   });
   return Places;
 }
+
+export async function getDataByCategory(category: string) {
+  const Places = await db.place.findMany({
+    where: {
+      reviews: {
+        some: {
+          accessibilityFeatures: {
+            path: [category],
+            equals: true,
+          },
+        },
+      },
+    },
+    include: {
+      reviews: {
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
+    },
+    orderBy: {
+      name: "asc",
+    },
+  });
+  return Places;
+}

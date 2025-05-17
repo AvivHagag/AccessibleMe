@@ -1,5 +1,6 @@
 "use client";
-import { format } from "date-fns";
+import Image from "next/image";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -18,20 +19,57 @@ import {
   Info,
   MapPin,
 } from "lucide-react";
-import { Review } from "@/lib/types";
+import { Place } from "@/lib/types";
+import { Button } from "@/components/ui/button";
+import { ReviewModal } from "@/components/ui/review-modal";
 
 interface ReviewsPageProps {
-  filteredReviews: Review[];
+  filteredPlaces: Place[];
   category: string;
 }
 
+const getCategoryLabel = (categoryId: string) => {
+  const categories = {
+    all: "הכל",
+    wheelchairAccess: "גישה לכיסאות גלגלים",
+    disabledParking: "חניית נכים",
+    clearSignage: "שילוט ברור",
+    audioSystems: "מערכות שמע",
+    adaptedServices: "שירותים מותאמים",
+    accessibleLocation: "מיקום נגיש",
+  };
+  return categories[categoryId as keyof typeof categories] || categoryId;
+};
+
 export default function ReviewsPage({
-  filteredReviews,
+  filteredPlaces,
   category,
 }: ReviewsPageProps) {
+  const [isPlaceModalOpen, setisPlaceModalOpen] = useState(false);
+  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+
+  const handlePlaceSelect = (selectedPlace: Place) => {
+    setSelectedPlace(selectedPlace);
+    setisPlaceModalOpen(true);
+  };
+
+  const placesWithRatings = filteredPlaces.map((place) => {
+    const totalRating = place.reviews.reduce(
+      (sum, review) => sum + review.rating,
+      0
+    );
+    const averageRating =
+      place.reviews.length > 0 ? totalRating / place.reviews.length : 0;
+
+    return {
+      ...place,
+      averageRating,
+    };
+  });
+
   return (
     <main className="flex flex-col items-center gap-12 my-24">
-      <section className="mx-2 md:p-2 max-w-6xl bg-white/20 backdrop-blur-lg border border-white/40 rounded-xl">
+      <section className="mx-2 md:p-2 max-w-6xl bg-white/20 dark:bg-black backdrop-blur-lg border border-white/40 dark:border-mint-darkest rounded-xl">
         <div className="mx-auto p-4">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-8">
             {category !== "all" ? (
@@ -47,9 +85,9 @@ export default function ReviewsPage({
                   dir="rtl"
                 >
                   {`${
-                    filteredReviews.length === 1
+                    filteredPlaces.length === 1
                       ? "תוצאה אחת"
-                      : filteredReviews.length + " " + "תוצאות"
+                      : filteredPlaces.length + " " + "תוצאות"
                   }`}
                 </p>
               </>
@@ -68,79 +106,123 @@ export default function ReviewsPage({
             className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 min-h-[400px]"
             dir="rtl"
           >
-            {filteredReviews.length > 0 ? (
-              filteredReviews.map((review) => (
+            {placesWithRatings.length > 0 ? (
+              placesWithRatings.map((place) => (
                 <Card
-                  key={review.id}
-                  className="flex flex-col h-full bg-white/50 backdrop-blur-md border-mint-medium"
+                  key={place.id}
+                  className="flex flex-col h-full bg-white/50 dark:bg-black dark:text-mint-darkest dark:border-mint-darkest backdrop-blur-md border-mint-medium overflow-hidden"
                 >
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <CardTitle className="text-xl">
-                          {review.placeName}
-                        </CardTitle>
-                        <Badge variant="outline" className="mt-1">
-                          {review.placeType}
-                        </Badge>
+                  <div className="relative w-full h-48">
+                    {place.image ? (
+                      <Image
+                        src={place.image}
+                        alt={place.name}
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-mint-lightest dark:bg-mint-darkest/20 flex items-center justify-center">
+                        <span className="text-mint-darkest">אין תמונה</span>
                       </div>
-                      <StarRating rating={review.overallRating} />
+                    )}
+                  </div>
+
+                  <CardHeader className="p-4">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <CardTitle className="text-xl">{place.name}</CardTitle>
+                      </div>
+                      <StarRating rating={place.averageRating} />
                     </div>
                   </CardHeader>
+
                   <CardContent className="flex-grow">
-                    <p className="text-muted-foreground mb-4">
-                      {review.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2 mt-4 justify-center">
-                      {review.accessibilityFeatures.wheelchairAccess && (
+                    <div className="flex flex-wrap gap-1 mb-2">
+                      {place.placeTypes?.map((type, index) => (
                         <Badge
-                          variant="secondary"
-                          className="flex items-center gap-1"
+                          key={index}
+                          variant="outline"
+                          className="text-xs"
+                        >
+                          {type}
+                        </Badge>
+                      ))}
+                    </div>
+                    {place.description && (
+                      <p className="text-sm text-muted-foreground mb-4">
+                        {place.description}
+                      </p>
+                    )}
+                    {place.address && (
+                      <p className="text-sm text-muted-foreground mb-4">
+                        {place.address}
+                      </p>
+                    )}
+
+                    <div className="flex flex-wrap gap-2 mt-4 justify-center">
+                      {place.reviews.some(
+                        (review) =>
+                          review.accessibilityFeatures.wheelchairAccess
+                      ) && (
+                        <Badge
+                          variant="outline"
+                          className="flex items-center gap-1 bg-mint-medium dark:bg-mint-darkest/20"
                         >
                           <Accessibility className="h-5 w-5" />
                           <span className="sr-only">Wheelchair Access</span>
                         </Badge>
                       )}
-                      {review.accessibilityFeatures.disabledParking && (
+                      {place.reviews.some(
+                        (review) => review.accessibilityFeatures.disabledParking
+                      ) && (
                         <Badge
-                          variant="secondary"
-                          className="flex items-center gap-1"
+                          variant="outline"
+                          className="flex items-center gap-1 bg-mint-medium dark:bg-mint-darkest/20"
                         >
                           <Car className="h-5 w-5" />
                           <span className="sr-only">Disabled Parking</span>
                         </Badge>
                       )}
-                      {review.accessibilityFeatures.clearSignage && (
+                      {place.reviews.some(
+                        (review) => review.accessibilityFeatures.clearSignage
+                      ) && (
                         <Badge
-                          variant="secondary"
-                          className="flex items-center gap-1"
+                          variant="outline"
+                          className="flex items-center gap-1 bg-mint-medium dark:bg-mint-darkest/20"
                         >
                           <SignpostBig className="h-5 w-5" />
                           <span className="sr-only">Clear Signage</span>
                         </Badge>
                       )}
-                      {review.accessibilityFeatures.audioSystems && (
+                      {place.reviews.some(
+                        (review) => review.accessibilityFeatures.audioSystems
+                      ) && (
                         <Badge
-                          variant="secondary"
-                          className="flex items-center gap-1"
+                          variant="outline"
+                          className="flex items-center gap-1 bg-mint-medium dark:bg-mint-darkest/20"
                         >
                           <Volume2 className="h-5 w-5" />
                           <span className="sr-only">Audio Systems</span>
                         </Badge>
                       )}
-                      {review.accessibilityFeatures.adaptedServices && (
+                      {place.reviews.some(
+                        (review) => review.accessibilityFeatures.adaptedServices
+                      ) && (
                         <Badge
-                          variant="secondary"
-                          className="flex items-center gap-1"
+                          variant="outline"
+                          className="flex items-center gap-1 bg-mint-medium dark:bg-mint-darkest/20"
                         >
                           <Info className="h-5 w-5" />
                           <span className="sr-only">Adapted Services</span>
                         </Badge>
                       )}
-                      {review.accessibilityFeatures.accessibleLocation && (
+                      {place.reviews.some(
+                        (review) =>
+                          review.accessibilityFeatures.accessibleLocation
+                      ) && (
                         <Badge
-                          variant="secondary"
-                          className="flex items-center gap-1"
+                          variant="outline"
+                          className="flex items-center gap-1 bg-mint-medium dark:bg-mint-darkest/20"
                         >
                           <MapPin className="h-5 w-5" />
                           <span className="sr-only">Accessible Location</span>
@@ -148,18 +230,19 @@ export default function ReviewsPage({
                       )}
                     </div>
                   </CardContent>
+
                   <CardFooter
-                    className="flex justify-between border-t py-2"
+                    className="flex justify-center border-t py-2"
                     dir="rtl"
                   >
-                    <div className="flex flex-col">
-                      <div className="text-sm text-muted-foreground">
-                        מאת {review.author}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        {format(review.date, "dd/MM/yyyy")}
-                      </div>
-                    </div>
+                    <Button
+                      variant="outline"
+                      className="bg-mint-teal/70 text-white hover:bg-mint-teal w-4/5"
+                      size="sm"
+                      onClick={() => handlePlaceSelect(place)}
+                    >
+                      קרא ביקורות
+                    </Button>
                   </CardFooter>
                 </Card>
               ))
@@ -183,19 +266,11 @@ export default function ReviewsPage({
           </div>
         </div>
       </section>
+      <ReviewModal
+        place={selectedPlace}
+        isOpen={isPlaceModalOpen}
+        onOpenChange={setisPlaceModalOpen}
+      />
     </main>
   );
-}
-
-function getCategoryLabel(categoryId: string): string {
-  const categories = {
-    accessibleLocation: "מיקום נגיש",
-    adaptedServices: "שירותים מותאמים",
-    audioSystems: "מערכות שמע",
-    clearSignage: "שילוט ברור",
-    disabledParking: "חניית נכים",
-    wheelchairAccess: "גישה לכיסאות גלגלים",
-  };
-
-  return categories[categoryId as keyof typeof categories] || categoryId;
 }
