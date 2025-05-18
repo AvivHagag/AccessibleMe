@@ -11,8 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { StarRating } from "@/components/ui/star-rating";
-import { Place, placeReview } from "@/lib/types";
-import { ThumbsUp, Share2 } from "lucide-react";
+import { Place } from "@/lib/types";
 import {
   Accessibility,
   Car,
@@ -33,8 +32,6 @@ interface ReviewModalProps {
 
 export function ReviewModal({ place, isOpen, onOpenChange }: ReviewModalProps) {
   if (!place) return null;
-
-  // Aggregate accessibility features from all reviews
   const aggregatedFeatures = {
     wheelchairAccess: false,
     clearSignage: false,
@@ -46,17 +43,39 @@ export function ReviewModal({ place, isOpen, onOpenChange }: ReviewModalProps) {
 
   place.reviews.forEach((review) => {
     if (review.accessibilityFeatures) {
-      if (review.accessibilityFeatures.wheelchairAccess)
+      if (
+        review.accessibilityFeatures &&
+        (review.accessibilityFeatures as { wheelchairAccess: boolean })
+          .wheelchairAccess
+      )
         aggregatedFeatures.wheelchairAccess = true;
-      if (review.accessibilityFeatures.clearSignage)
+      if (
+        review.accessibilityFeatures &&
+        (review.accessibilityFeatures as { clearSignage: boolean }).clearSignage
+      )
         aggregatedFeatures.clearSignage = true;
-      if (review.accessibilityFeatures.audioSystems)
+      if (
+        review.accessibilityFeatures &&
+        (review.accessibilityFeatures as { audioSystems: boolean }).audioSystems
+      )
         aggregatedFeatures.audioSystems = true;
-      if (review.accessibilityFeatures.adaptedServices)
+      if (
+        review.accessibilityFeatures &&
+        (review.accessibilityFeatures as { adaptedServices: boolean })
+          .adaptedServices
+      )
         aggregatedFeatures.adaptedServices = true;
-      if (review.accessibilityFeatures.disabledParking)
+      if (
+        review.accessibilityFeatures &&
+        (review.accessibilityFeatures as { disabledParking: boolean })
+          .disabledParking
+      )
         aggregatedFeatures.disabledParking = true;
-      if (review.accessibilityFeatures.accessibleLocation)
+      if (
+        review.accessibilityFeatures &&
+        (review.accessibilityFeatures as { accessibleLocation: boolean })
+          .accessibleLocation
+      )
         aggregatedFeatures.accessibleLocation = true;
     }
   });
@@ -110,7 +129,7 @@ export function ReviewModal({ place, isOpen, onOpenChange }: ReviewModalProps) {
               </Badge>
             </div>
             <div className="flex flex-col items-end">
-              <StarRating rating={place.overallRating} />
+              <StarRating rating={place.overallRating} size="md" />
               <span className="text-sm text-muted-foreground mt-1">
                 {place.reviews.length} ביקורות
               </span>
@@ -176,13 +195,13 @@ export function ReviewModal({ place, isOpen, onOpenChange }: ReviewModalProps) {
               {place.reviews.map((review) => (
                 <div
                   key={review.id}
-                  className="p-4 border border-mint-medium shadow-md bg-mint-light dark:border-gray-800 rounded-lg"
+                  className="p-4 border border-mint-medium shadow-md bg-mint-light dark:border-gray-800 dark:bg-mint-medium/10 rounded-lg"
                 >
                   <div className="flex justify-between items-start mb-3">
                     <div className="flex justify-between w-full">
                       <div className="flex items-center gap-2">
                         <Avatar className="h-10 w-10">
-                          <AvatarFallback className="bg-mint-medium text-white">
+                          <AvatarFallback className="bg-mint-medium dark:bg-black dark:text-mint-darkest text-white">
                             {review.author
                               ? review.author.substring(0, 2)
                               : "?"}
@@ -199,7 +218,7 @@ export function ReviewModal({ place, isOpen, onOpenChange }: ReviewModalProps) {
                           </div>
                         </div>
                       </div>
-                      <StarRating rating={review.rating} />
+                      <StarRating rating={review.rating} size="md" />
                     </div>
                   </div>
                   {review.comment && (
@@ -208,7 +227,7 @@ export function ReviewModal({ place, isOpen, onOpenChange }: ReviewModalProps) {
                   <div className="flex flex-wrap gap-2 mt-3">
                     {review.accessibilityFeatures &&
                       Object.entries(review.accessibilityFeatures)
-                        .filter(([_, value]) => value === true)
+                        .filter(([, value]) => value === true)
                         .map(([key]) => {
                           let icon = null;
                           let label = "";

@@ -1,3 +1,5 @@
+import { JsonValue } from "@prisma/client/runtime/library";
+
 export interface Review {
   id: string;
   placeName: string;
@@ -57,7 +59,7 @@ export interface placeReview {
   placeId: string;
   rating: number;
   comment: string | null;
-  accessibilityFeatures: any;
+  accessibilityFeatures: JsonValue;
   author: string | null;
   createdAt: Date;
 }

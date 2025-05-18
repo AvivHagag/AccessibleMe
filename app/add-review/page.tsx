@@ -1,13 +1,9 @@
 "use client";
 
 import HeroSearch from "@/components/add-review/HeroSearch";
-import { Search } from "lucide-react";
-import Image from "next/image";
 import { useState } from "react";
 import { AddReviewModal } from "@/components/ui/add-review-modal";
-import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { Badge } from "@/components/ui/badge";
 import PlacesSection from "@/components/add-review/places-section";
 import { createReview } from "@/active/reviews";
 
@@ -32,7 +28,6 @@ export default function AddReviewPage() {
   const router = useRouter();
   const [term, setTerm] = useState("");
   const [selectedPlace, setSelectedPlace] = useState<PlaceDetails | null>(null);
-  const [details, setDetails] = useState<PlaceDetails | null>(null);
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState<PlaceDetails[] | null>(
     null
@@ -43,7 +38,6 @@ export default function AddReviewPage() {
   const onSearch = async () => {
     if (!term.trim()) return;
     setIsSearching(true);
-    setDetails(null);
     setSearchResults([]);
     const { predictions } = await fetch(
       `/api/places/autocomplete?input=${encodeURIComponent(term)}`
@@ -66,7 +60,6 @@ export default function AddReviewPage() {
     setShowDropdown(false);
     setIsSearching(true);
     setSearchResults([]);
-    setDetails(null);
     const data = await fetch(`/api/places/${placeId}`).then((r) => r.json());
     const placeDetails = { id: placeId, ...data };
     setSearchResults([placeDetails]);
@@ -109,22 +102,11 @@ export default function AddReviewPage() {
         image: selectedPlace.image || "",
       };
       await createReview(newReview);
-
-      //   toast({
-      //     title: "ביקורת נשלחה בהצלחה!",
-      //     description: `תודה על הביקורת שלך ל${selectedPlace.name}.`,
-      //   });
-
-      // Redirect to reviews page or home page
       setTimeout(() => {
         router.push("/");
       }, 2000);
     } catch (error) {
-      //   toast({
-      //     title: "שגיאה בשליחת הביקורת",
-      //     description: "אירעה שגיאה בעת שליחת הביקורת, אנא נסה שוב.",
-      //     variant: "destructive",
-      //   });
+      console.error(error);
     }
   };
 

@@ -41,12 +41,18 @@ export function StarRating({
                 dir="rtl"
               >
                 <Star
-                  className={cn(sizeClasses[size], "fill-primary text-primary")}
+                  className={cn(
+                    sizeClasses[size],
+                    "fill-primary text-primary dark:fill-mint-darkest/70 dark:text-mint-darkest/70"
+                  )}
                 />
               </div>
             )}
             <Star
-              className={cn(sizeClasses[size], "fill-muted text-mint-medium")}
+              className={cn(
+                sizeClasses[size],
+                "fill-muted text-mint-medium dark:fill-black dark:text-mint-medium/40"
+              )}
             />
           </div>
         );

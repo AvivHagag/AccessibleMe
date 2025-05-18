@@ -45,7 +45,7 @@ export default function HeroSearch({
     }, 300);
     setDebounceTimer(timer);
     return () => clearTimeout(timer);
-  }, [searchValue]);
+  }, [searchValue, setShowDropdown]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();

@@ -3,7 +3,7 @@ import HeroSearch from "@/components/main-page/HeroSearch";
 import AccessibilityCategories from "@/components/main-page/accessibility-categories";
 import PlacesSection from "@/components/main-page/places-section";
 import PlacesResults from "@/components/search/places-results";
-import { Category, placeReview, Place } from "@/lib/types";
+import { Category, Place } from "@/lib/types";
 import { useState } from "react";
 import { ReviewModal } from "@/components/ui/review-modal";
 
@@ -15,7 +15,6 @@ export default function MainPage({
   categories: Category[];
 }) {
   const [term, setTerm] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const [isPlaceModalOpen, setisPlaceModalOpen] = useState<boolean>(false);
 
@@ -47,7 +46,6 @@ export default function MainPage({
         </>
       ) : (
         <PlacesResults
-          loading={loading}
           term={term}
           reviews={Reviews}
           places={Places}

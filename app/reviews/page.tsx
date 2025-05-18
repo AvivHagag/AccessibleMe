@@ -1,4 +1,3 @@
-import { Review } from "@/lib/types";
 import ReviewsPage from "./reviews-page";
 import { getDataByCategory } from "@/active/reviews";
 

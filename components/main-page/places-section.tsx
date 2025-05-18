@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { format } from "date-fns";
 import {
   Card,
   CardContent,
@@ -10,7 +9,7 @@ import {
   CardTitle,
   CardFooter,
 } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { StarRating } from "@/components/ui/star-rating";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -50,9 +49,11 @@ export default function PlacesSection({
       ? reviews
       : reviews.filter(
           (review) =>
-            review.accessibilityFeatures[
-              selectedCategory as keyof placeReview["accessibilityFeatures"]
-            ]
+            (
+              review.accessibilityFeatures as {
+                [key: string]: boolean;
+              }
+            )[selectedCategory as keyof placeReview["accessibilityFeatures"]]
         );
 
   const placeMap = new Map();
@@ -78,8 +79,15 @@ export default function PlacesSection({
     const placeData = placeMap.get(review.placeId);
     placeData.reviews.push(review);
 
-    Object.keys(review.accessibilityFeatures).forEach((feature) => {
-      if (review.accessibilityFeatures[feature]) {
+    Object.keys(
+      review.accessibilityFeatures as { [key: string]: boolean }
+    ).forEach((feature) => {
+      if (
+        review.accessibilityFeatures &&
+        review.accessibilityFeatures[
+          feature as keyof typeof review.accessibilityFeatures
+        ]
+      ) {
         placeData.accessibilityFeatures[feature] = true;
       }
     });

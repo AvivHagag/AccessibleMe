@@ -162,7 +162,11 @@ export default function ReviewsPage({
                     <div className="flex flex-wrap gap-2 mt-4 justify-center">
                       {place.reviews.some(
                         (review) =>
-                          review.accessibilityFeatures.wheelchairAccess
+                          (
+                            review.accessibilityFeatures as {
+                              wheelchairAccess: boolean;
+                            }
+                          )?.wheelchairAccess
                       ) && (
                         <Badge
                           variant="outline"
@@ -173,7 +177,12 @@ export default function ReviewsPage({
                         </Badge>
                       )}
                       {place.reviews.some(
-                        (review) => review.accessibilityFeatures.disabledParking
+                        (review) =>
+                          (
+                            review.accessibilityFeatures as {
+                              disabledParking: boolean;
+                            }
+                          )?.disabledParking
                       ) && (
                         <Badge
                           variant="outline"
@@ -184,7 +193,12 @@ export default function ReviewsPage({
                         </Badge>
                       )}
                       {place.reviews.some(
-                        (review) => review.accessibilityFeatures.clearSignage
+                        (review) =>
+                          (
+                            review.accessibilityFeatures as {
+                              clearSignage: boolean;
+                            }
+                          )?.clearSignage
                       ) && (
                         <Badge
                           variant="outline"
@@ -195,7 +209,12 @@ export default function ReviewsPage({
                         </Badge>
                       )}
                       {place.reviews.some(
-                        (review) => review.accessibilityFeatures.audioSystems
+                        (review) =>
+                          (
+                            review.accessibilityFeatures as {
+                              audioSystems: boolean;
+                            }
+                          )?.audioSystems
                       ) && (
                         <Badge
                           variant="outline"
@@ -206,7 +225,12 @@ export default function ReviewsPage({
                         </Badge>
                       )}
                       {place.reviews.some(
-                        (review) => review.accessibilityFeatures.adaptedServices
+                        (review) =>
+                          (
+                            review.accessibilityFeatures as {
+                              adaptedServices: boolean;
+                            }
+                          )?.adaptedServices
                       ) && (
                         <Badge
                           variant="outline"
@@ -218,7 +242,11 @@ export default function ReviewsPage({
                       )}
                       {place.reviews.some(
                         (review) =>
-                          review.accessibilityFeatures.accessibleLocation
+                          (
+                            review.accessibilityFeatures as {
+                              accessibleLocation: boolean;
+                            }
+                          )?.accessibleLocation
                       ) && (
                         <Badge
                           variant="outline"
