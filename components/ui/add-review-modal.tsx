@@ -140,23 +140,7 @@ export function AddReviewModal({
       accessibilityFeatures,
       description,
     });
-    // setRating(0);
-    // setDescription("");
-    // setAccessibilityFeatures({
-    //   wheelchairAccess: false,
-    //   disabledParking: false,
-    //   clearSignage: false,
-    //   audioSystems: false,
-    //   adaptedServices: false,
-    //   accessibleLocation: false,
-    // });
-
-    // onOpenChange(false);
   };
-
-  const isAnyFeatureSelected = Object.values(accessibilityFeatures).some(
-    (value) => value
-  );
 
   if (!place) return null;
 
@@ -327,12 +311,7 @@ export function AddReviewModal({
             <Button
               className="bg-mint-medium hover:bg-mint-dark text-white"
               onClick={handleSubmit}
-              disabled={
-                rating === 0 ||
-                description === "" ||
-                !isAnyFeatureSelected ||
-                isLoading
-              }
+              disabled={rating === 0 || description === "" || isLoading}
             >
               שלח ביקורת
             </Button>

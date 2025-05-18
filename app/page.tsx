@@ -5,7 +5,7 @@ import { categories } from "@/lib/types";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-const Places = await getData();
-export default function Home() {
+export default async function Home() {
+  const Places = await getData();
   return <MainPage Places={Places} categories={categories} />;
 }
