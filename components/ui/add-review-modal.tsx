@@ -147,7 +147,7 @@ export function AddReviewModal({
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent
-        className="sm:max-w-2xl max-h-[95vh] bg-white dark:bg-black rounded-lg shadow-lg p-0 z-40"
+        className="sm:max-w-2xl max-h-[85vh] sm:max-h-[90vh] overflow-hidden bg-white dark:bg-black rounded-lg shadow-lg p-0 z-40"
         dir="rtl"
       >
         <DialogHeader className="flex justify-between items-start p-0">

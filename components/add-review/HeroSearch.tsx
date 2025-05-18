@@ -77,10 +77,10 @@ export default function HeroSearch({
           <Button
             type="submit"
             onClick={onSearch}
-            className="group h-14 px-6 rounded-l-full rounded-r-none bg-white/20 text-mint-darkest hover:bg-white/10 dark:bg-black/40 backdrop-blur-md border border-white/30 dark:border-mint-darkest dark:text-mint-darkest shadow-lg focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
+            className="group h-14 px-4 sm:px-6 rounded-l-full rounded-r-none bg-white/20 text-mint-darkest hover:bg-white/10 dark:bg-black/40 backdrop-blur-md border border-white/30 dark:border-mint-darkest dark:text-mint-darkest shadow-lg focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
           >
             <Search className="h-6 w-6 text-mint-darkest group-hover:text-black dark:group-hover:text-white" />
-            <span className="group-hover:text-black dark:group-hover:text-white">
+            <span className="hidden sm:blockgroup-hover:text-black dark:group-hover:text-white">
               חיפוש
             </span>
           </Button>

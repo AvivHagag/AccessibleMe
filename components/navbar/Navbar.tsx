@@ -108,7 +108,11 @@ export default function Navbar() {
           }`}
         >
           <div className="flex justify-between py-1">
-            <Link href="/" className="flex-shrink-0 flex items-center">
+            <Link
+              href="/"
+              className="flex-shrink-0 flex items-center"
+              onClick={toggleMenu}
+            >
               <Image
                 src="/AccessibleMeLogo1.png"
                 alt="AccessibleMe Logo"
@@ -153,7 +157,7 @@ export default function Navbar() {
               <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 dark:hidden block text-mint-darkest" />
               <Moon className="h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 dark:text-white hidden dark:block" />
             </div>
-            <Link href="/add-review">
+            <Link href="/add-review" onClick={toggleMenu}>
               <Button
                 asChild
                 variant="outline"
