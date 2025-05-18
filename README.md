@@ -1,6 +1,6 @@
 # AccessibleMe
 
-![AccessibleMe Logo](https://github.com/user-attachments/assets/3c32216d-59e6-4a7a-98ed-4f32d675228f)
+<img src="https://github.com/user-attachments/assets/3c32216d-59e6-4a7a-98ed-4f32d675228f" alt="AccessibleMe Logo" width="200"/>
 
 AccessibleMe is a collaborative platform where users can share and discover reviews about accessibility in public places. Our mission is to make the world more accessible by providing detailed, user-generated insights about the accessibility features of various businesses and public spaces.
 
