@@ -10,7 +10,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { PersonStanding, Moon, Sun, ZoomIn, ZoomOut, Type } from "lucide-react";
+import {
+  PersonStanding,
+  Moon,
+  Sun,
+  ZoomIn,
+  ZoomOut,
+  Type,
+  Volume2,
+  VolumeOff,
+} from "lucide-react";
 
 export default function AccessibilityControls({
   theme,
@@ -24,6 +33,7 @@ export default function AccessibilityControls({
   setHighContrast: (highContrast: boolean) => void;
 }) {
   const [fontSize, setFontSize] = useState(16);
+  const [isReading, setIsReading] = useState(false);
 
   useEffect(() => {
     document.documentElement.style.fontSize = `${fontSize}px`;
@@ -73,8 +83,72 @@ export default function AccessibilityControls({
     }
   };
 
+  const readPage = () => {
+    if ("speechSynthesis" in window) {
+      if (isReading) {
+        window.speechSynthesis.cancel();
+        setIsReading(false);
+        return;
+      }
+
+      const text = document.body.innerText;
+      const utterance = new SpeechSynthesisUtterance(text);
+      const voices = window.speechSynthesis.getVoices();
+      const hebrewVoice =
+        voices.find(
+          (voice) => voice.lang.includes("he") && voice.name.includes("Google")
+        ) || voices.find((voice) => voice.lang.includes("he"));
+
+      if (hebrewVoice) {
+        utterance.voice = hebrewVoice;
+      }
+
+      utterance.lang = "he-IL";
+      utterance.rate = 0.85;
+      utterance.pitch = 1.2;
+      utterance.volume = 1.0;
+
+      utterance.onend = () => {
+        setIsReading(false);
+      };
+      if (voices.length === 0) {
+        window.speechSynthesis.onvoiceschanged = () => {
+          const updatedVoices = window.speechSynthesis.getVoices();
+          const hebrewVoice =
+            updatedVoices.find(
+              (voice) =>
+                voice.lang.includes("he") && voice.name.includes("Google")
+            ) || updatedVoices.find((voice) => voice.lang.includes("he"));
+
+          if (hebrewVoice) {
+            utterance.voice = hebrewVoice;
+          }
+          window.speechSynthesis.speak(utterance);
+        };
+      } else {
+        window.speechSynthesis.speak(utterance);
+      }
+
+      setIsReading(true);
+    }
+  };
+
   return (
     <div className="fixed bottom-4 right-4 z-[100]">
+      {isReading && (
+        <Button
+          variant="destructive"
+          size="sm"
+          onClick={readPage}
+          className="absolute -top-10 right-0 shadow-lg"
+          dir="rtl"
+        >
+          הפסק קריאה
+          <span>
+            <VolumeOff className="h-6 w-6 mr-1" />
+          </span>
+        </Button>
+      )}
       <DropdownMenu dir="rtl">
         <DropdownMenuTrigger asChild className="z-[100]">
           <Button
@@ -117,6 +191,18 @@ export default function AccessibilityControls({
           >
             <span>ניגודיות גבוהה {highContrast ? "(פעיל)" : "(כבוי)"}</span>
             <Type className="h-4 w-4 mr-2" />
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={readPage}
+            className="flex items-center justify-between cursor-pointer hover:bg-accent/50"
+          >
+            <span>{isReading ? "הפסק קריאה" : "קרא את הדף"}</span>
+            {isReading ? (
+              <VolumeOff className="h-4 w-4 mr-2" />
+            ) : (
+              <Volume2 className="h-4 w-4 mr-2" />
+            )}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
