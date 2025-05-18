@@ -23,7 +23,6 @@ export default function MainPage({
     const place = Places.find((place) => place.id === placeId);
 
     if (place) {
-      console.log(place);
       setSelectedPlace(place);
       setisPlaceModalOpen(true);
     }

@@ -9,7 +9,6 @@ export default async function Page({
 }) {
   const { category = "all" } = await searchParams;
   const filteredPlaces = await getDataByCategory(category);
-  console.log(filteredPlaces);
 
   return (
     <main className="flex-1 min-h-[600px]">
