@@ -20,9 +20,11 @@ import {
   Info,
   MapPin,
   X,
+  VolumeOff,
 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Image from "next/image";
+import { useState } from "react";
 
 interface ReviewModalProps {
   place: Place | null;
@@ -31,6 +33,7 @@ interface ReviewModalProps {
 }
 
 export function ReviewModal({ place, isOpen, onOpenChange }: ReviewModalProps) {
+  const [isReading, setIsReading] = useState(false);
   if (!place) return null;
   const aggregatedFeatures = {
     wheelchairAccess: false,
@@ -84,13 +87,71 @@ export function ReviewModal({ place, isOpen, onOpenChange }: ReviewModalProps) {
     (value) => value
   );
 
+  const readReviews = () => {
+    if ("speechSynthesis" in window) {
+      if (isReading) {
+        window.speechSynthesis.cancel();
+        setIsReading(false);
+        return;
+      }
+
+      const reviewsText = place.reviews
+        .map((review) => {
+          const author = review.author || "אנונימי";
+          const comment = review.comment || "";
+          return `${author} כתב: ${comment}`;
+        })
+        .join(". ");
+
+      const utterance = new SpeechSynthesisUtterance(reviewsText);
+      const voices = window.speechSynthesis.getVoices();
+      const hebrewVoice =
+        voices.find(
+          (voice) => voice.lang.includes("he") && voice.name.includes("Google")
+        ) || voices.find((voice) => voice.lang.includes("he"));
+
+      if (hebrewVoice) {
+        utterance.voice = hebrewVoice;
+      }
+
+      utterance.lang = "he-IL";
+      utterance.rate = 0.85;
+      utterance.pitch = 1.2;
+      utterance.volume = 1.0;
+
+      utterance.onend = () => {
+        setIsReading(false);
+      };
+
+      if (voices.length === 0) {
+        window.speechSynthesis.onvoiceschanged = () => {
+          const updatedVoices = window.speechSynthesis.getVoices();
+          const hebrewVoice =
+            updatedVoices.find(
+              (voice) =>
+                voice.lang.includes("he") && voice.name.includes("Google")
+            ) || updatedVoices.find((voice) => voice.lang.includes("he"));
+
+          if (hebrewVoice) {
+            utterance.voice = hebrewVoice;
+          }
+          window.speechSynthesis.speak(utterance);
+        };
+      } else {
+        window.speechSynthesis.speak(utterance);
+      }
+
+      setIsReading(true);
+    }
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent
-        className="sm:max-w-2xl max-h-[85vh] sm:max-h-[90vh] overflow-hidden bg-white dark:bg-black rounded-lg shadow-lg p-0 z-40"
+        className="sm:max-w-2xl max-h-[85%] sm:max-h-[90%] overflow-x-hidden overflow-y-auto bg-white dark:bg-black rounded-lg shadow-lg p-0 z-40"
         dir="rtl"
       >
-        <DialogHeader className="flex justify-between items-start p-0">
+        <DialogHeader className="flex justify-between items-start p-0 sticky top-0 bg-white dark:bg-black z-10">
           {place.image && (
             <div className="relative w-full h-48 md:h-64">
               <Image
@@ -105,9 +166,9 @@ export function ReviewModal({ place, isOpen, onOpenChange }: ReviewModalProps) {
             <Button
               variant="secondary"
               size="icon"
-              className="absolute top-1 left-2 rounded-lg h-8 w-8 p-0 hover:bg-mint-lightest dark:hover:bg-mint-teal/10"
+              className="group absolute top-1 left-2 rounded-lg h-8 w-8 p-0 hover:bg-mint-lightest dark:bg-black "
             >
-              <X className="h-6 w-6 text-mint-darkest dark:text-mint-darkest" />
+              <X className="h-6 w-6 text-mint-darkest dark:text-mint-darkest group-hover:dark:text-white" />
             </Button>
           </DialogClose>
           <DialogTitle className="text-xl font-bold text-black dark:text-white px-4">
@@ -115,7 +176,7 @@ export function ReviewModal({ place, isOpen, onOpenChange }: ReviewModalProps) {
           </DialogTitle>
         </DialogHeader>
 
-        <div className="px-4 overflow-y-auto max-h-[calc(85vh-300px)] sm:max-h-[calc(90vh-350px)]">
+        <div className="px-2 space-y-4 pb-4">
           <div className="flex sm:flex-row flex-col sm:justify-between sm:items-center mb-4">
             <div className="flex flex-col">
               <span className="flex items-center text-sm text-muted-foreground">
@@ -188,9 +249,29 @@ export function ReviewModal({ place, isOpen, onOpenChange }: ReviewModalProps) {
               </>
             )}
 
-            <h3 className="font-medium mb-4 text-lg border-t pt-2 border-mint-darkest text-mint-darkest dark:text-mint-darkest">
-              ביקורות:
-            </h3>
+            <div className="flex flex-row justify-between items-center mb-4 gap-2 border-t pt-2 border-mint-darkest">
+              <h3 className="font-medium text-lg  text-mint-darkest dark:text-mint-darkest">
+                ביקורות:
+              </h3>
+              <Button
+                variant={isReading ? "destructive" : "ghost"}
+                size="sm"
+                dir="rtl"
+                onClick={readReviews}
+                className={`flex items-center gap-2   ${
+                  isReading
+                    ? "border-none text-white"
+                    : "bg-mint-medium text-white hover:bg-mint-dark dark:bg-mint-darkest/20 hover:dark:bg-black dark:border-mint-darkest dark:border"
+                }`}
+              >
+                {isReading ? "הפסק קריאה" : "קרא ביקורות"}
+                {isReading ? (
+                  <VolumeOff className="h-4 w-4 mr-2" />
+                ) : (
+                  <Volume2 className="h-4 w-4 mr-2" />
+                )}
+              </Button>
+            </div>
 
             <div className="space-y-6">
               {place.reviews.map((review) => (

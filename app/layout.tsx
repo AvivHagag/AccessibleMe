@@ -46,7 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} dark:bg-[linear-gradient(to_bottom,_#042f2e_0%,_#000000_33%,_#000000_100%)] bg-[linear-gradient(to_bottom,_#E5F8EF_0%,_#A5E4C2_33%,_#BDEAF1_67%,_#F3F3F3_100%)]`}
+        className={`${geistSans.variable} ${geistMono.variable} dark:bg-[linear-gradient(to_bottom_left,_#042f2e_0%,_#000000_56%,_#000000_100%)] bg-[linear-gradient(to_bottom,_#E5F8EF_0%,_#A5E4C2_33%,_#BDEAF1_67%,_#F3F3F3_100%)]`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Navbar />

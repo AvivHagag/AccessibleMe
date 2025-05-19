@@ -45,7 +45,7 @@ export default function AccessibilityCategories({
   };
 
   return (
-    <section className="mx-2 md:p-2 max-w-6xl bg-white/20 dark:bg-black backdrop-blur-lg border border-white/40 dark:border-mint-darkest rounded-xl">
+    <section className="mx-2 md:p-2 max-w-6xl bg-white/20 dark:bg-black/10 dark:backdrop-blur-0 backdrop-blur-lg border border-white/40 dark:border-mint-darkest rounded-xl">
       <div className="mx-auto p-4">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">

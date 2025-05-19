@@ -17,7 +17,7 @@ export default function PlacesSection({
   handleOpenReviewModal,
 }: PlacesSectionProps) {
   return (
-    <section className="w-full max-w-4xl space-y-2 py-4 bg-white/20 dark:bg-black backdrop-blur-lg border border-white/40 dark:border-mint-darkest rounded-xl">
+    <section className="w-full max-w-4xl space-y-2 py-4 bg-white/20 dark:bg-black/10 dark:backdrop-blur-0 backdrop-blur-lg border border-white/40 dark:border-mint-darkest rounded-xl">
       <h1 className="text-2xl font-bold text-center">
         {" "}
         {searchResults && term.trim() ? "תוצאות החיפוש" : "התחל חיפוש"}

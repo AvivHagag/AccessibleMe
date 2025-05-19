@@ -147,12 +147,12 @@ export function AddReviewModal({
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent
-        className="sm:max-w-2xl max-h-[85vh] sm:max-h-[90vh] overflow-hidden bg-white dark:bg-black rounded-lg shadow-lg p-0 z-40"
+        className="sm:max-w-2xl max-h-[85%] sm:max-h-[90%] overflow-x-hidden overflow-y-auto bg-white dark:bg-black rounded-lg shadow-lg p-0 z-40"
         dir="rtl"
       >
-        <DialogHeader className="flex justify-between items-start p-0">
+        <DialogHeader className="flex justify-between items-start p-0 sticky top-0 bg-white dark:bg-black z-10">
           {place.image && (
-            <div className="relative w-full h-48 md:h-64">
+            <div className="relative w-full h-48 md:h-56">
               <Image
                 src={place.image}
                 alt={place.name}
@@ -175,7 +175,7 @@ export function AddReviewModal({
           </DialogTitle>
         </DialogHeader>
 
-        <div className="px-2 space-y-4 overflow-y-auto max-h-[60vh]">
+        <div className="px-2 space-y-4 pb-4">
           <div className="flex justify-between items-center">
             <div className="flex flex-col text-right">
               <span className="text-sm text-muted-foreground">

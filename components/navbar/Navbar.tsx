@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import { Menu, Moon, Sun, X } from "lucide-react";
 import { useState, useEffect } from "react";
-import AccessibilityControls from "../main-page/accessibility-controls";
+import AccessibilityControls from "./accessibility-controls";
 
 export default function Navbar() {
   const { theme, setTheme } = useTheme();

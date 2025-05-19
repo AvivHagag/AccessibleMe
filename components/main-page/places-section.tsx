@@ -105,7 +105,7 @@ export default function PlacesSection({
   const placesData = Array.from(placeMap.values());
 
   return (
-    <section className="mx-2 md:p-2 max-w-6xl bg-white/20 dark:bg-black backdrop-blur-lg border border-white/40 dark:border-mint-darkest rounded-xl">
+    <section className="mx-2 md:p-2 max-w-6xl bg-white/20 dark:bg-black/10 dark:backdrop-blur-0 backdrop-blur-lg border border-white/40 dark:border-mint-darkest rounded-xl">
       <div className="mx-auto p-4">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-8">
           <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
