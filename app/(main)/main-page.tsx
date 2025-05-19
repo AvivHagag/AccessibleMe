@@ -29,7 +29,7 @@ export default function MainPage({
 
   const Reviews = Places.map((place) => place.reviews).flat();
   return (
-    <main className="flex flex-col items-center gap-12 mb-24">
+    <main className="flex flex-col items-center gap-12 mb-24 min-h-screen">
       <HeroSearch
         searchValue={term}
         onSearchChange={(v: string) => setTerm(v)}

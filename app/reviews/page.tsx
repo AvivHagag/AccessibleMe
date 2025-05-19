@@ -10,7 +10,7 @@ export default async function Page({
   const filteredPlaces = await getDataByCategory(category);
 
   return (
-    <main className="flex-1 min-h-[600px]">
+    <main className="flex-1 min-h-screen">
       <ReviewsPage filteredPlaces={filteredPlaces} category={category} />
     </main>
   );
