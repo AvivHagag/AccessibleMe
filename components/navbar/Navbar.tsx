@@ -4,15 +4,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
-import { Menu, Moon, Sun, X } from "lucide-react";
+import { Menu, Moon, Sun, X, Lightbulb } from "lucide-react";
 import { useState, useEffect } from "react";
 import AccessibilityControls from "./accessibility-controls";
+import factsData from "@/lib/disability_facts.json";
 
 export default function Navbar() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [highContrast, setHighContrast] = useState(false);
+  const [currentFact, setCurrentFact] = useState("");
 
   useEffect(() => {
     setMounted(true);
@@ -20,6 +22,11 @@ export default function Navbar() {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const showRandomFact = () => {
+    const randomIndex = Math.floor(Math.random() * factsData.facts.length);
+    setCurrentFact(factsData.facts[randomIndex].fact);
   };
 
   return (
@@ -63,6 +70,22 @@ export default function Navbar() {
             </div>
 
             <div className="hidden md:flex items-center space-x-4">
+              <div className="relative group">
+                <button
+                  onMouseEnter={showRandomFact}
+                  className="text-mint-darkest dark:text-mint-teal p-2 hover:opacity-80 transition-opacity"
+                  aria-label="Show random fact"
+                >
+                  <Lightbulb className="h-6 w-6" />
+                </button>
+                {currentFact && (
+                  <div className="absolute right-0 mt-2 w-64 p-3 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 invisible group-hover:visible transition-all duration-200 z-50">
+                    <p className="text-mint-darkest dark:text-white text-sm text-right">
+                      {currentFact}
+                    </p>
+                  </div>
+                )}
+              </div>
               <div
                 className={`flex items-center gap-2 ${
                   highContrast ? "hidden" : ""
